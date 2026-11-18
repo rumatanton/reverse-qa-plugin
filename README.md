@@ -199,9 +199,10 @@ in `targets/<app>/.env` on your machine; the Xray API key is stored by Claude Co
 
 ## Tests and CI
 
-    cd plugin && npm test            # everything, ~60 s with Docker running
+    cd plugin && npm test            # everything, 1 to 2 minutes with Docker running
     cd plugin && npm run test:unit   # no Docker, ~30 s
-    cd plugin && npm run test:e2e    # opt-in: three end-to-end runs on the fixture apps (installs npm packages)
+    cd plugin && npm run test:e2e    # opt-in: three end-to-end runs on the fixture apps (installs npm packages).
+                                     # Run it on a quiet machine: the desktop run has a 30 s limit per test
 
 `.github/workflows/`: `ci.yml` (plugin tests, then one end-to-end run on the API fixture), `agent-behavior.yml`
 (manual; the subagents on the fixture app, needs an API key), `release.yml` (tag → packaged plugin).
