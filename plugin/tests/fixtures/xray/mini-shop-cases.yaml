@@ -1,0 +1,61 @@
+# Canonical test cases for mini-shop (the shape test-designer writes to output/test-cases/cases.yaml).
+cases:
+  - id: TC-AUTH-001
+    title: Customer logs in with a registered email and the right password
+    requirement: REQ-AUTH-001
+    priority: P1
+    tier: authn
+    technique: equivalence-partitioning
+    type: manual
+    preconditions:
+      - The database is reset to the seed
+    steps:
+      - action: Open login.php
+        data: ""
+        expected: The login form shows email and password fields
+      - action: Submit the form
+        data: "email=ann@example.test, password=secret"
+        expected: The browser is redirected to index.php and a session cookie is set
+    tags: [ASVS-6.2.1]
+    automation: framework/tests/t3-roles/authn/login.spec.ts
+  - id: TC-AUTH-002
+    title: Login is refused for a wrong password
+    requirement: REQ-AUTH-001
+    priority: P1
+    tier: authn
+    technique: equivalence-partitioning
+    type: cucumber
+    gherkin: |
+      Given the database is reset to the seed
+      When I log in as "<email>" with password "<password>"
+      Then I see "Invalid login"
+      And no session is started
+
+      Examples:
+        | email            | password |
+        | ann@example.test | wrong    |
+        | nobody@x.test    | secret   |
+  - id: TC-PAY-001
+    title: Checkout turns the cart into one order and empties the cart
+    requirement: REQ-PAY-001
+    priority: P1
+    tier: e2e
+    technique: state-transition
+    type: manual
+    steps:
+      - action: Log in as ann@example.test and open cart.php?add=1
+        expected: The browser is redirected to checkout.php
+      - action: Check the database
+        data: "SELECT * FROM orders WHERE user_id = 1"
+        expected: One new order with total 12; the cart for user 1 is empty
+  - id: TC-ADM-001
+    title: Admin report sends no data to a visitor without a session
+    requirement: REQ-ADM-001
+    priority: P1
+    tier: authz
+    technique: decision-table
+    type: manual
+    steps:
+      - action: Request admin/report.php with no cookie, without following redirects
+        expected: HTTP 302 to ../login.php and a body with no order or revenue figures
+    tags: [ASVS-8.2.1, WSTG-ATHZ-02]

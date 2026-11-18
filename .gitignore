@@ -1,0 +1,31 @@
+# local session state (handoff, worklog) — never committed
+.local/
+
+# secrets
+.env
+*.env
+!.env.example
+
+# node / playwright
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+**/.auth/
+
+# generated scan output for fixtures
+plugin/tests/.tmp/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# per-target runtime state (php logs, auth state)
+.runtime/
+
+# run archives (reports, traces, videos) and agent-behavior transcripts: kept locally, attached to CI runs, not committed
+targets/*/output/runs/
+plugin/tests/behavior/.runs/
+
+# the dry-run preview behind publish-bugs --confirm: working state of one machine, not a record
+targets/*/output/bugs/publish-preview.json

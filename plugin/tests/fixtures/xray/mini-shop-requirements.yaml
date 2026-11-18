@@ -1,0 +1,23 @@
+# A small approved requirements.yaml for mini-shop, used by the Xray tests.
+- id: REQ-AUTH-001
+  statement: "When a visitor submits a registered email and the matching password, the system shall start a customer session and redirect to index.php."
+  role: Customer
+  kind: as-is
+  evidence:
+    - { file: login.php, line: 9, quote: '$_SESSION["UID"] = $row["id"];' }
+  label: verified
+- id: REQ-PAY-001
+  statement: "When a customer opens checkout.php with items in the cart, the system shall create one order for the cart total and empty the cart."
+  role: Customer
+  kind: as-is
+  evidence:
+    - { file: checkout.php, line: 9, quote: "INSERT INTO orders (user_id, total)" }
+  label: verified
+- id: REQ-ADM-001
+  statement: "When a visitor without an admin session requests admin/report.php, the system shall redirect to the login page and send no report data."
+  role: Visitor
+  kind: intended
+  evidence:
+    - { file: admin/report.php, line: 5, quote: 'header("Location: ../login.php");' }
+  label: verified
+  notes: "Today the 302 body still carries the order count and revenue (execution after redirect)."

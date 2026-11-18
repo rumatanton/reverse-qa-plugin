@@ -1,0 +1,4 @@
+req_id,feature,likelihood,impact,score,priority,rationale,evidence
+REQ-AUTH-001,login,3,5,15,P1,Login guards every customer page,login.php:9
+REQ-PAY-001,checkout,4,5,20,P1,Money and order data,checkout.php:9
+REQ-ADM-001,admin report,2,4,8,P2,Revenue figures leak in a 302 body,admin/report.php:5

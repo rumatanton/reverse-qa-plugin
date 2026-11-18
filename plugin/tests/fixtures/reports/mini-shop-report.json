@@ -1,0 +1,243 @@
+{
+  "config": {},
+  "stats": {
+    "startTime": "2026-11-09T10:00:00.000Z",
+    "duration": 30000
+  },
+  "suites": [
+    {
+      "title": "t0-smoke/home.spec.ts",
+      "file": "tests/t0-smoke/home.spec.ts",
+      "specs": [
+        {
+          "title": "home loads @smoke @page:index.php @role:Visitor",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "expected",
+              "results": [
+                {
+                  "status": "passed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:00.000Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "t3-roles/authn/login.spec.ts",
+      "file": "tests/t3-roles/authn/login.spec.ts",
+      "specs": [
+        {
+          "title": "customer logs in @TC-AUTH-001 @authn @p1 @page:login.php @role:Visitor",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "expected",
+              "results": [
+                {
+                  "status": "passed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:02.000Z"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "wrong password is refused @TC-AUTH-002 @authn @p1 @page:login.php @role:Visitor",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "unexpected",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:04.000Z",
+                  "error": {
+                    "message": "Error: locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: 'Sign in' })"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "t4-e2e/purchase.spec.ts",
+      "file": "tests/t4-e2e/purchase.spec.ts",
+      "specs": [
+        {
+          "title": "checkout creates one order @TC-PAY-001 @e2e @p1 @page:checkout.php @role:Customer",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "unexpected",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 3000,
+                  "startTime": "2026-11-09T10:00:10.000Z",
+                  "error": {
+                    "message": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 12\nReceived: 0"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "old defect now fixed F-009 @e2e @page:checkout.php @role:Visitor",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "failed",
+              "status": "unexpected",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:14.000Z"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "t3-roles/authz/admin.spec.ts",
+      "file": "tests/t3-roles/authz/admin.spec.ts",
+      "specs": [
+        {
+          "title": "report sends no data without a session @TC-ADM-001 F-001 @authz @page:admin/report.php @role:Visitor",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "failed",
+              "status": "expected",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:16.000Z"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "products redirects visitors @authz @page:admin/products.php @role:Visitor",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "unexpected",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:18.000Z",
+                  "error": {
+                    "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8090/admin/products.php"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "report for admin @authz @page:admin/report.php @role:Admin",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "skipped",
+              "results": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "t2-flow/cart.spec.ts",
+      "file": "tests/t2-flow/cart.spec.ts",
+      "specs": [
+        {
+          "title": "add to cart @flow @page:cart.php @role:Customer",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "firefox",
+              "expectedStatus": "passed",
+              "status": "flaky",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 900,
+                  "startTime": "2026-11-09T10:00:20.000Z",
+                  "error": {
+                    "message": "Timeout"
+                  }
+                },
+                {
+                  "status": "passed",
+                  "duration": 800,
+                  "startTime": "2026-11-09T10:00:22.000Z"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "price shown to customers @page @page:index.php @role:Customer",
+          "line": 1,
+          "tags": [],
+          "tests": [
+            {
+              "projectName": "chromium",
+              "expectedStatus": "passed",
+              "status": "unexpected",
+              "results": [
+                {
+                  "status": "failed",
+                  "duration": 1000,
+                  "startTime": "2026-11-09T10:00:25.000Z",
+                  "error": {
+                    "message": "Error: expect(received).toContain(expected)\n\nExpected substring: \"12\"\nReceived string: \"Mug\""
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

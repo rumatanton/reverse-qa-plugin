@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mini Desktop - About</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js"></script>
+</head>
+<body>
+  <nav id="menu" aria-label="Main"></nav>
+  <main>
+    <h1>About</h1>
+    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" width="48" height="48">
+    <p>Version 1.0.0</p>
+    <p id="update">Checking for updates…</p>
+    <script>
+      // asks the update server on every visit
+      window.desk.updateUrl()
+        .then((url) => fetch(url))
+        .then((res) => res.json())
+        .then((latest) => { document.getElementById("update").textContent = "Latest version: " + latest.version; })
+        .catch(() => { document.getElementById("update").textContent = "Update check unavailable"; });
+    </script>
+  </main>
+</body>
+</html>

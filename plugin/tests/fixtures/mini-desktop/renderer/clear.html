@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mini Desktop - Delete notes</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js"></script>
+</head>
+<body>
+  <nav id="menu" aria-label="Main"></nav>
+  <main>
+    <h1>Deleting…</h1>
+    <script>
+      window.desk.clearNotes().then(() => location.replace("notes.html"));
+    </script>
+  </main>
+</body>
+</html>

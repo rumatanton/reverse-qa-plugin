@@ -1,0 +1,203 @@
+# The test types reverse-qa knows about: the ones it runs today (status: built) and the ones it knows it does not run
+# yet (status: not-built, with the gap in one line). tech-analyst reads this file to say, for one app, which types the
+# app needs and which of them the tool cannot run, and to propose types that are not listed here at all
+# (output/docs/08-test-types.md, checked against this file by check-citations).
+#
+# A unit test keeps this file true to the repo: `by` is a skill folder, `template` a folder under templates/, and every
+# tier in the framework template and every run-* skill must appear here.
+# `drivers`: the drivers the type runs on (web, api, electron). Left out = it does not depend on the driver.
+
+# ---- built ---------------------------------------------------------------------------------------------------------
+- id: smoke
+  area: functional
+  name: "Smoke: every page opens for a role allowed to see it, with no server error"
+  status: built
+  by: run-suites
+  template: framework/tests/t0-smoke
+  drivers: [web, electron]
+- id: api
+  area: functional
+  name: "HTTP tier: every endpoint answers without a server error as each role; empty form posts; detail pages without their parameters"
+  status: built
+  by: run-suites
+  template: framework/tests/api
+  drivers: [web, api]
+- id: authorization
+  area: security
+  name: "Role matrix: every page as every role gets what role-matrix.csv says (allowed, redirect, denied)"
+  status: built
+  by: run-suites
+  template: framework/tests/t3-roles
+  drivers: [web, api]
+- id: journeys
+  area: functional
+  name: "End-to-end journeys per role, written per app by the Playwright generator from the approved test cases"
+  status: built
+  by: run-suites
+  drivers: [web, electron]
+- id: integration
+  area: functional
+  name: "Outbound integrations against a stub: what the app hands over, and forged or repeated callbacks (written per app)"
+  status: built
+  by: run-suites
+  drivers: [web, api]
+- id: database
+  area: data
+  name: "Database effects: exact row counts, and the rows a flow adds, changes or removes (needs a database in target.yaml)"
+  status: built
+  by: db-snapshot
+- id: accessibility
+  area: accessibility
+  name: "Accessibility by rule (axe-core), new violations against a stored baseline"
+  status: built
+  by: run-suites
+  template: framework/tests/a11y
+  drivers: [web, electron]
+- id: visual
+  area: usability
+  name: "Visual regression: page screenshots against stored ones"
+  status: built
+  by: run-suites
+  template: framework/tests/visual
+  drivers: [web]
+- id: cross-browser
+  area: compatibility
+  name: "Other browsers and a phone-sized screen: Firefox, WebKit, a Pixel 7 viewport"
+  status: built
+  by: run-suites
+  drivers: [web]
+- id: security-runtime
+  area: security
+  name: "Runtime security checks: cookie flags, security headers, version disclosure, anti-CSRF token, how passwords are stored (written per app)"
+  status: built
+  by: run-suites
+  drivers: [web, api]
+- id: access-control
+  area: security
+  name: "Access control on write handlers: a role that may not change data cannot (written per app)"
+  status: built
+  by: run-suites
+  drivers: [web, api]
+- id: sast
+  area: security
+  name: "Static scan of the source: Semgrep rules and secrets rules; Psalm taint analysis for PHP"
+  status: built
+  by: run-security-scans
+- id: dast-passive
+  area: security
+  name: "Passive scan of the running app, logged out (OWASP ZAP baseline)"
+  status: built
+  by: run-security-scans
+  drivers: [web]
+- id: security-second-opinion
+  area: security
+  name: "Independent security review of the code, matched against the analyst's findings"
+  status: built
+  by: security-second-opinion
+- id: perf-load
+  area: performance
+  name: "Load baseline on key pages (k6: one user, then a ramp) with p95 and error thresholds, slow SQL logged"
+  status: built
+  by: run-perf
+  template: perf
+  drivers: [web, api]
+- id: upgrade
+  area: compatibility
+  name: "Upgrade comparison: the same suite on the current and the next runtime, differences listed test by test"
+  status: built
+  by: run-upgrade-compare
+  drivers: [web, api]
+- id: flake-gate
+  area: test-quality
+  name: "Flake gate: every new test passes five times in a row before it is kept"
+  status: built
+  by: run-suites
+- id: mutation
+  area: test-quality
+  name: "Mutation check: one defect at a time in the running copy of the app (a session check turned around, a write that changes nothing); a defect no test notices is a test to write"
+  status: built
+  by: run-mutation
+  drivers: [web, api]
+- id: framework-selftest
+  area: test-quality
+  name: "The framework's own self-tests: the outbound guard, the server-log watcher, the fixtures, the clean-up"
+  status: built
+  by: run-suites
+  template: framework/selftest
+
+# ---- not built -----------------------------------------------------------------------------------------------------
+- id: perf-stress
+  area: performance
+  name: "Stress, spike and soak load"
+  status: not-built
+  gap: "run-perf has two scenarios (one user, a ramp); harsher or longer profiles are not written, and a laptop is not a capacity rig"
+- id: perf-browser
+  area: performance
+  name: "Page speed in the browser: load time, page weight, Core Web Vitals"
+  status: not-built
+  gap: "no browser timing is collected; k6 measures the server's answers only"
+- id: dependency-audit
+  area: security
+  name: "Known-vulnerable libraries in the app's dependencies (composer, npm, Maven and the like)"
+  status: not-built
+  gap: "no dependency scanner is run"
+- id: dast-active
+  area: security
+  name: "Active and logged-in scanning of the running app"
+  status: not-built
+  gap: "ZAP runs its passive baseline, logged out"
+- id: session-tests
+  area: security
+  name: "Session handling: fixation, logout really ends the session, timeout, login throttling"
+  status: not-built
+  gap: "only the cookie flags and the login form's token are checked"
+- id: input-validation
+  area: functional
+  name: "Negative and boundary input on every form field"
+  status: not-built
+  gap: "test-designer designs these as test cases; no tier generates them for every form"
+- id: concurrency
+  area: functional
+  name: "Two users at once: a double submit, the same row edited twice, the last item bought twice"
+  status: not-built
+  gap: "every test acts as one user at a time"
+- id: resilience
+  area: reliability
+  name: "Behaviour when a dependency fails: the database down, an integration slow or silent"
+  status: not-built
+  gap: "integrations are stubbed to answer; nothing is made to fail"
+- id: api-contract
+  area: functional
+  name: "Responses checked against the API spec's schemas"
+  status: not-built
+  gap: "the HTTP tier checks the status and the role, not the shape of the body"
+- id: data-integrity
+  area: data
+  name: "Data rules that must hold after a flow: no orphan rows, totals that add up, uniqueness"
+  status: not-built
+  gap: "snapshots show what changed; nothing states what must hold"
+- id: accessibility-manual
+  area: accessibility
+  name: "Keyboard-only use, focus order, screen reader"
+  status: not-built
+  gap: "axe-core finds only what a rule can see in the page"
+- id: localization
+  area: functional
+  name: "Other languages, date and number formats, right-to-left text"
+  status: not-built
+  gap: "no locale is varied"
+- id: notifications
+  area: functional
+  name: "Emails and other messages the app sends"
+  status: not-built
+  gap: "no mail catcher or message inbox is set up"
+- id: mobile-native
+  area: compatibility
+  name: "Native mobile apps, and desktop apps not built with Electron"
+  status: not-built
+  gap: "the Appium driver is a written contract, not built (templates/DRIVERS.md)"
+- id: exploratory
+  area: functional
+  name: "Exploratory session charters for a person"
+  status: not-built
+  gap: "not generated; the open questions in the docs are the nearest thing"

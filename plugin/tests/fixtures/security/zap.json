@@ -1,0 +1,205 @@
+{
+  "@programName": "ZAP",
+  "@version": "2.17.0",
+  "@generated": "Tue, 10 Nov 2026 03:04:04",
+  "created": "2026-11-10T03:04:04.995359777Z",
+  "insights": [
+    {
+      "level": "Low",
+      "reason": "Warning",
+      "site": "",
+      "key": "insight.log.error",
+      "description": "ZAP errors logged - see the zap.log file for details",
+      "statistic": "1"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.code.2xx",
+      "description": "Percentage of responses with status code 2xx",
+      "statistic": "93"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.code.3xx",
+      "description": "Percentage of responses with status code 3xx",
+      "statistic": "1"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.code.4xx",
+      "description": "Percentage of responses with status code 4xx",
+      "statistic": "5"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.endpoint.ctype.image/jpeg",
+      "description": "Percentage of endpoints with content type image/jpeg",
+      "statistic": "79"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.endpoint.ctype.text/css",
+      "description": "Percentage of endpoints with content type text/css",
+      "statistic": "6"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.endpoint.ctype.text/html",
+      "description": "Percentage of endpoints with content type text/html",
+      "statistic": "12"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.endpoint.method.GET",
+      "description": "Percentage of endpoints with method GET",
+      "statistic": "98"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.endpoint.method.POST",
+      "description": "Percentage of endpoints with method POST",
+      "statistic": "1"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.endpoint.total",
+      "description": "Count of total endpoints",
+      "statistic": "62"
+    },
+    {
+      "level": "Info",
+      "reason": "Informational",
+      "site": "http://web",
+      "key": "insight.response.slow",
+      "description": "Percentage of slow responses",
+      "statistic": "6"
+    }
+  ],
+  "site": [
+    {
+      "@name": "http://web",
+      "@host": "web",
+      "@port": "80",
+      "@ssl": "false",
+      "alerts": [
+        {
+          "pluginid": "20020",
+          "alertRef": "20020-1",
+          "alert": "PHP Version with Known Vulnerabilities",
+          "name": "PHP Version with Known Vulnerabilities",
+          "riskcode": "3",
+          "confidence": "1",
+          "riskdesc": "High (Low)",
+          "instances": [
+            {
+              "id": "42",
+              "uri": "http://web/mini-shop/books.php?id=1",
+              "nodeName": "http://web/mini-shop/books.php (id)",
+              "method": "GET",
+              "param": "",
+              "attack": "",
+              "evidence": "PHP/7.2.34",
+              "otherinfo": "The server disclosed that it is running PHP version 7.2.34 via the \"X-Powered-By\" HTTP response header.\n\n58 known vulnerabilities: 4 critical, 12 high, 33 medium, 9 low.\n\nThe version disclosed is older than any version listed in the advisories, so it is assumed to be affected because older, end-of-life release branches rarely receive fixes.\n\nCritical: CVE-2023-3824, CVE-2024-1874, CVE-2026-109618, CVE-2026-109619\n\nHigh: CVE-2023-0662, CVE-2023-3823, CVE-2024-2757, CVE-2024-4577, CVE-2024-8929, CVE-2025-14179, CVE-2026-12184, CVE-2026-17543, CVE-2026-17544, CVE-2026-6722, CVE-2026-7263, CVE-2026-91765\n\nMedium: CVE-2024-11233, CVE-2024-11234, CVE-2024-11235, CVE-2024-11236, CVE-2024-8926, CVE-2024-8927, CVE-2024-8932, CVE-2025-1217, CVE-2025-1219, CVE-2025-14177, CVE-2025-14178, CVE-2025-14180, CVE-2025-14181, CVE-2025-1734, CVE-2025-1735, CVE-2025-1736, CVE-2025-1861, CVE-2025-6491, CVE-2026-14355, CVE-2026-17545, CVE-2026-6103, CVE-2026-6104, CVE-2026-6735, CVE-2026-7258, CVE-2026-7260, CVE-2026-7261, CVE-2026-7262, CVE-2026-91766, CVE-2026-91767, CVE-2026-91768, CVE-2026-91769, CVE-2026-92842, CVE-2026-93682\n\nLow: CVE-2023-0567, CVE-2023-3247, CVE-2024-3096, CVE-2024-8925, CVE-2024-9026, CVE-2025-1218, CVE-2025-1220, CVE-2026-7259, CVE-2026-7568"
+            }
+          ],
+          "count": "1",
+          "systemic": false,
+          "cweid": "1395",
+          "wascid": "13",
+          "sourceid": "23"
+        },
+        {
+          "pluginid": "10202",
+          "alertRef": "10202",
+          "alert": "Absence of Anti-CSRF Tokens",
+          "name": "Absence of Anti-CSRF Tokens",
+          "riskcode": "2",
+          "confidence": "1",
+          "riskdesc": "Medium (Low)",
+          "instances": [
+            {
+              "id": "69",
+              "uri": "http://web/mini-shop/login.php",
+              "nodeName": "http://web/mini-shop/login.php",
+              "method": "GET",
+              "param": "",
+              "attack": "",
+              "evidence": "<form action=\"/mini-shop/login.php\" method = \"post\">",
+              "otherinfo": "No known Anti-CSRF token [anticsrf, CSRFToken, __RequestVerificationToken, csrfmiddlewaretoken, authenticity_token, OWASP_CSRFTOKEN, anoncsrf, csrf_token, _csrf, _csrfSecret, __csrf_magic, CSRF, _token, _csrf_token, _csrfToken] was found in the following HTML form: [Form 1: \"email\" \"pwd\" ]."
+            },
+            {
+              "id": "158",
+              "uri": "http://web/mini-shop/login.php",
+              "nodeName": "http://web/mini-shop/login.php ()(email,pwd)",
+              "method": "POST",
+              "param": "",
+              "attack": "",
+              "evidence": "<form action=\"/mini-shop/login.php\" method = \"post\">",
+              "otherinfo": "No known Anti-CSRF token [anticsrf, CSRFToken, __RequestVerificationToken, csrfmiddlewaretoken, authenticity_token, OWASP_CSRFTOKEN, anoncsrf, csrf_token, _csrf, _csrfSecret, __csrf_magic, CSRF, _token, _csrf_token, _csrfToken] was found in the following HTML form: [Form 1: \"email\" \"pwd\" ]."
+            }
+          ],
+          "count": "2",
+          "systemic": false,
+          "cweid": "352",
+          "wascid": "9",
+          "sourceid": "37"
+        },
+        {
+          "pluginid": "10038",
+          "alertRef": "10038-1",
+          "alert": "Content Security Policy (CSP) Header Not Set",
+          "name": "Content Security Policy (CSP) Header Not Set",
+          "riskcode": "2",
+          "confidence": "3",
+          "riskdesc": "Medium (High)",
+          "instances": [
+            {
+              "id": "2",
+              "uri": "http://web/",
+              "nodeName": "http://web/",
+              "method": "GET",
+              "param": "",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": ""
+            },
+            {
+              "id": "22",
+              "uri": "http://web/mini-shop/",
+              "nodeName": "http://web/mini-shop/",
+              "method": "GET",
+              "param": "",
+              "attack": "",
+              "evidence": "",
+              "otherinfo": ""
+            }
+          ],
+          "count": "4",
+          "systemic": true,
+          "cweid": "693",
+          "wascid": "15",
+          "sourceid": "11"
+        }
+      ]
+    }
+  ],
+  "sequences": []
+}

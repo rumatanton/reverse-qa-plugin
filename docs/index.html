@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>reverse-qa</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1b1f24; --muted: #59636e; --line: #d0d7de; --accent: #0969da; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0d1117; --fg: #e6edf3; --muted: #9198a1; --line: #30363d; --accent: #4493f8; } }
+  body { background: var(--bg); color: var(--fg); font: 17px/1.55 system-ui, "Segoe UI", sans-serif; margin: 0; }
+  main { max-width: 720px; margin: 0 auto; padding: 40px 16px; }
+  h1 { margin: 0 0 8px; } p { color: var(--muted); margin: 0 0 28px; }
+  a.card { display: block; border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin-bottom: 12px; color: var(--fg); text-decoration: none; }
+  a.card:hover { border-color: var(--accent); } a.card b { color: var(--accent); display: block; margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>reverse-qa</h1>
+  <p>A Claude Code plugin that reverse-engineers an app with no documentation into requirements, user stories,
+  Playwright tests, findings and bug reports. It works on your own app, in any language, and only ever tests a copy you point it at.</p>
+  <a class="card" href="how-it-works.html"><b>How it works</b>Diagrams of the agent, what is code, model or person, and the workflow.</a>
+  <a class="card" href="architecture.html"><b>Architecture</b>The parts, the agents, the skills and the rules it keeps.</a>
+  <a class="card" href="https://github.com/rumatanton/reverse-qa-plugin#quick-start"><b>Quick start</b>Install the plugin and put your own app under it in three commands.</a>
+  <a class="card" href="https://github.com/rumatanton/reverse-qa-plugin"><b>Source</b>The plugin, its tests and the test framework template. MIT license.</a>
+</main>
+</body>
+</html>

@@ -1,0 +1,44 @@
+# Every push and pull request. Job 1 tests the plugin itself (unit, hooks, Docker contract and integration tests).
+# Job 2 runs reverse-qa end to end on an app that is not PHP and has no pages: the mini-api fixture, from its source
+# folder to a passing test run (init-target, scan-repo, scaffold-framework, run-suites). All logic lives in the
+# plugin's scripts; this file only calls them. No secrets are used.
+name: ci
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  plugin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24, cache: npm, cache-dependency-path: plugin/package-lock.json }
+      - uses: grafana/setup-k6-action@c47136d33d365efbeb9ae7266908b5dcf98cdece # v1
+      - run: npm ci
+        working-directory: plugin
+      - name: Plugin manifest and marketplace validate
+        run: npx -y @anthropic-ai/claude-code plugin validate ./plugin --strict && npx -y @anthropic-ai/claude-code plugin validate . --strict
+      - name: Unit, hook, contract and integration tests
+        run: npm test
+        working-directory: plugin
+
+  end-to-end:
+    needs: plugin
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      RQA_E2E: '1'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24, cache: npm, cache-dependency-path: plugin/package-lock.json }
+      - run: npm ci
+        working-directory: plugin
+      - name: A new app, from its source folder to a passing test run (API fixture, no browser)
+        run: node --test --test-timeout=1200000 tests/e2e/api-target.test.mjs
+        working-directory: plugin

@@ -1,0 +1,11 @@
+{
+  "name": "reverse-qa/rules-php",
+  "description": "PHP rule pack for reverse-qa: PHP-Parser extractor and Psalm taint analysis.",
+  "type": "project",
+  "license": "proprietary",
+  "require": {
+    "nikic/php-parser": "^5.0",
+    "vimeo/psalm": "^6.0"
+  },
+  "config": { "sort-packages": true }
+}

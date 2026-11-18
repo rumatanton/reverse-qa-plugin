@@ -1,0 +1,11 @@
+page,role,expected,evidence
+index.php,Visitor,allowed,index.php:4
+index.php,Customer,allowed,index.php:4
+login.php,Visitor,allowed,login.php:16
+cart.php,Customer,allowed,cart.php:3
+checkout.php,Customer,allowed,checkout.php:3
+checkout.php,Visitor,redirect,checkout.php:4
+admin/products.php,Visitor,redirect,admin/products.php:4
+admin/products.php,Admin,allowed,admin/products.php:3
+admin/report.php,Visitor,redirect,admin/report.php:5
+admin/report.php,Admin,allowed,admin/report.php:4

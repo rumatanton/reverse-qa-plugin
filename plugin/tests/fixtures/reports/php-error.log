@@ -1,0 +1,2 @@
+[09-Nov-2026 09:59:00 UTC] PHP Warning:  mysqli::__construct(): (HY000/2002): Connection refused in /var/www/html/db.php on line 2
+[09-Nov-2026 10:00:11 UTC] PHP Fatal error:  Uncaught Error: Call to a member function fetch_assoc() on bool in /var/www/html/checkout.php:9

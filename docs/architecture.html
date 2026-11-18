@@ -1,0 +1,219 @@
+<title>reverse-qa Architecture</title>
+<meta name="description" content="The reverse-qa Claude Code plugin in one page: its agents, MCP servers, hooks and skills, and how a run works.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one column of short sections, each a table or a list; reference first, results after. */
+:root {
+  --bg: #f3f5f6; --surface: #ffffff; --ink: #14212a; --muted: #55636e; --line: #d5dce1; --code-bg: #eef1f3;
+  --accent: #a8520c; --agent: #3b4fa0; --agent-bg: #e8ebf7; --det: #1f6f62; --det-bg: #e1f1ed; --human: #a23e48; --human-bg: #f7e6e8;
+  --f-display: "Archivo", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Consolas, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f161b; --surface: #151f26; --ink: #e3e9ed; --muted: #97a5af; --line: #26333c; --code-bg: #1a252d;
+  --accent: #e08a3c; --agent: #a5b4f2; --agent-bg: #1d2442; --det: #78cbb9; --det-bg: #12302b; --human: #f0a3ab; --human-bg: #3a1c21;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f161b; --surface: #151f26; --ink: #e3e9ed; --muted: #97a5af; --line: #26333c; --code-bg: #1a252d;
+  --accent: #e08a3c; --agent: #a5b4f2; --agent-bg: #1d2442; --det: #78cbb9; --det-bg: #12302b; --human: #f0a3ab; --human-bg: #3a1c21;
+  color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55;
+  padding-inline: 16px; padding-block: 28px 56px; }
+.wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 34px; }
+h1, h2 { font-family: var(--f-display); font-stretch: 85%; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 800; }
+h2 { font-size: 22px; font-weight: 700; }
+p { margin: 0; max-width: 74ch; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code { font-family: var(--f-mono); font-size: 0.86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.eyebrow { font-family: var(--f-mono); font-size: 11.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+header, section { display: flex; flex-direction: column; gap: 12px; }
+section > h2 { border-top: 2px solid var(--ink); padding-top: 10px; }
+.lede { color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; }
+.stat b { font-family: var(--f-display); font-size: 26px; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12.5px; color: var(--muted); }
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; vertical-align: top; padding: 7px 11px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--bg); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.nm { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; }
+.chip { display: inline-block; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.c-agent { color: var(--agent); background: var(--agent-bg); }
+.c-det { color: var(--det); background: var(--det-bg); }
+.c-human { color: var(--human); background: var(--human-bg); }
+ol.flow { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; counter-reset: step; }
+ol.flow li { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 13.5px; display: flex; flex-direction: column; gap: 4px; min-width: 0; counter-increment: step; }
+ol.flow li b::before { content: counter(step) ". "; color: var(--muted); font-weight: 500; }
+ol.flow li.gate { border: 2px solid var(--human); }
+ul.tight { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; max-width: 80ch; }
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 18px; font-size: 13.5px; margin: 0; }
+.skills div { display: flex; gap: 8px; min-width: 0; }
+.skills dt { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; }
+.skills dd { margin: 0; color: var(--muted); min-width: 0; }
+footer { color: var(--muted); font-size: 13px; border-top: 1px solid var(--line); padding-top: 12px; }
+@media (max-width: 860px) { .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } ol.flow { grid-template-columns: repeat(2, minmax(0, 1fr)); } .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .stats, .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } ol.flow, .skills { grid-template-columns: minmax(0, 1fr); } }
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="eyebrow">Claude Code plugin · open source, MIT</span>
+  <h1>reverse-qa</h1>
+  <p class="lede">Give it an app with no documentation. It documents the architecture, security, roles and workflows (every claim cites a file and line), writes requirements, user stories and Xray test cases, builds and runs a Playwright framework with performance, security and upgrade checks, and turns confirmed defects into Jira-ready bug reports.</p>
+  <p class="lede">It is not tied to a stack or to one app. <a href="how-it-works.html">How it works</a> has the diagrams; the <a href="https://github.com/rumatanton/reverse-qa-plugin#quick-start">quick start</a> puts your own app under it.</p>
+</header>
+
+<section id="glance" aria-label="At a glance">
+  <div class="stats">
+    <div class="stat"><b>4</b><span>subagents (2 Opus, 2 Sonnet)</span></div>
+    <div class="stat"><b>3</b><span>Playwright agents</span></div>
+    <div class="stat"><b>24</b><span>skills</span></div>
+    <div class="stat"><b>2</b><span>MCP servers</span></div>
+    <div class="stat"><b>3</b><span>hooks</span></div>
+    <div class="stat"><b data-n="plugin-tests">208</b><span>tests of the plugin</span></div>
+  </div>
+</section>
+
+<section id="anyapp">
+  <h2>Any app</h2>
+  <p class="lede">The tool is not tied to a technology. Two parts are pluggable. Everything else reads files (source, requirements, reports), so it is the same for every app.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Plug point</th><th>Built</th><th>What a new app needs</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">Reading the source<br><span class="chip c-det">rule pack</span></td><td><b>generic</b>: any language, no parser, no Docker (files, SQL in strings, outbound URLs, route hints). <b>php</b>: a full parser, for depth.</td><td>Nothing. A dedicated pack is an optional extra.</td></tr>
+      <tr><td class="nm">Reaching the app<br><span class="chip c-det">driver</span></td><td><b>web</b> (browser), <b>api</b> (HTTP) and <b>electron</b> (a desktop app built with Electron, driven through its own windows), all on Playwright.</td><td>Mobile apps, and desktop apps not built with Electron, need the Appium driver: its contract is written, it is not built.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tbl"><table>
+    <thead><tr><th>What works</th><th>Web app</th><th>API</th><th>Desktop app (Electron)</th><th>Mobile, other desktop</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">Architecture, security, roles, workflows, cited</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
+      <tr><td class="nm">Requirements, user stories, test cases, bug reports</td><td>yes</td><td>yes</td><td>yes</td><td>yes</td></tr>
+      <tr><td class="nm">Inventory</td><td>source scan + a crawl of the running app</td><td>source scan + OpenAPI spec</td><td>source scan + a crawl of the app's own windows</td><td>source scan</td></tr>
+      <tr><td class="nm">Automated tests</td><td>browser and HTTP tiers</td><td>HTTP tiers</td><td>the app is started itself: smoke, accessibility, journeys</td><td>needs the Appium driver</td></tr>
+      <tr><td class="nm">Upgrade comparison (two versions, the same tests)</td><td>yes</td><td>yes</td><td>no</td><td>no</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="tight">
+    <li><code>init-target</code> looks at a source folder, says what the app is and why, prints what works for it today, writes its <code>target.yaml</code>, and checks the prerequisites.</li>
+    <li><code>crawl-app</code> walks the running app as every role: GET only, inside the app, skipping links that look destructive. An OpenAPI spec lists an API's endpoints. <code>scan-repo</code> merges both with the source scan and flags routes in the code that neither reached.</li>
+    <li>First crawl of a real web app, a PHP shop: 29 of the 33 pages the PHP parser knows, found from the running app alone (the four missed are the logout page, which it skips on purpose, and three payment pages only a form post reaches). It left 12 destructive links alone, among them 11 "Delete" links with harmless-looking addresses, and recorded 17 page-and-role cases where the app logged a server error behind a redirect: the same defect class the parser and the tests found, seen with no parser.</li>
+    <li>Checked end to end on a second app, a small Node JSON API with a spec and a token login that the plugin keeps as a test fixture: from its source folder to 26 passing tests, with no browser and nothing PHP.</li>
+  </ul>
+</section>
+
+<section id="agents">
+  <h2>Agents</h2>
+  <p class="lede">A model is called only where judgment is needed. Every agent writes fixed files, and code checks them; no model grades another.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Agent</th><th>Does</th><th>Writes</th><th>Tools and MCP</th><th>Checked by</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">tech-analyst<br><span class="chip c-agent">opus</span></td><td>Stack, integrations, data model, security model, findings with root causes; triages scanner output; says which test types the app needs and which the tool does not run yet</td><td>docs 01, 02, 05, 08 · <code>findings.csv</code></td><td>Read, Grep, Glob, Write</td><td>citation and private-data hook; Semgrep, Psalm, ZAP; <code>/security-review</code></td></tr>
+      <tr><td class="nm">workflow-analyst<br><span class="chip c-agent">opus</span></td><td>Roles, the page × role matrix, workflows with their database effects, requirements, risk scores; the wording of each user story</td><td>docs 03, 04 · <code>role-matrix.csv</code> · <code>requirements.yaml</code> · <code>risk-register.csv</code> · story wording</td><td>Read, Grep, Glob, Write · Atlassian (read only)</td><td>citation hook, schema, matrix coverage, <code>build-stories</code> check, human review</td></tr>
+      <tr><td class="nm">test-designer<br><span class="chip c-agent">sonnet</span></td><td>Xray test cases by risk (partitions, boundaries, decision tables, state transitions), strategy and plan</td><td><code>cases.yaml</code> · doc 06 · <code>test-plan.md</code></td><td>Read, Write, Glob, Bash · Xray and Atlassian (read and validate only)</td><td><code>export-xray</code>: Xray format, every requirement covered</td></tr>
+      <tr><td class="nm">bug-reporter<br><span class="chip c-agent">sonnet</span></td><td>One reproducible bug per confirmed finding: steps, expected, actual, cited root cause, evidence from the run</td><td><code>bugs.json</code> · <code>BUG-*.md</code></td><td>Read, Write, Glob, Grep, Bash · Atlassian (read only)</td><td><code>publish-bugs</code> dry run: complete, cited, no secrets</td></tr>
+      <tr><td class="nm">planner · generator · healer<br><span class="chip c-agent">Playwright</span></td><td>Explore the app per role; write specs from approved cases; repair failures triaged as test problems</td><td>specs in <code>framework/tests/</code></td><td>Playwright test MCP; playwright-cli and trace skills; k6 skills</td><td><code>triage-failures</code>, flake gate (5 repeats)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="mcp">
+  <h2>MCP servers and hooks</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>Name</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td class="nm">atlassian (MCP)</td><td>Official Atlassian server. Agents get Jira read and search only, to reuse story keys and avoid duplicate bugs.</td></tr>
+      <tr><td class="nm">xray (MCP)</td><td>The plugin's own Xray Cloud server: validate, find, import tests and results. A real import needs the id of a dry run the person confirmed.</td></tr>
+      <tr><td class="nm">ensure-deps</td><td>SessionStart: installs the plugin's Node dependencies when missing.</td></tr>
+      <tr><td class="nm">protect-target</td><td>PreToolUse: blocks any edit inside the target's source.</td></tr>
+      <tr><td class="nm">check-citations</td><td>PostToolUse: every <code>[cite: path:line "quote"]</code> must match the code; no document may hold seed-data emails or secrets.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <p class="lede">One job each, a script plus a SKILL.md; same input, same output. Each SKILL.md ends with its memory, the lessons from real runs: a failure fixed once stays fixed, and each lesson carries the name of the fix, the date and who confirmed it.</p>
+  <dl class="skills">
+    <div><dt>recon</dt><dd>the recipe, start to finish</dd></div>
+    <div><dt>init-target</dt><dd>put a new app under the tool</dd></div>
+    <div><dt>crawl-app</dt><dd>what each role can reach</dd></div>
+    <div><dt>scan-repo</dt><dd>inventory: source, API spec, crawl</dd></div>
+    <div><dt>run-target-app</dt><dd>build, start, seed the app</dd></div>
+    <div><dt>db-reset</dt><dd>back to the seed, counts proven</dd></div>
+    <div><dt>db-snapshot</dt><dd>rows before and after a flow</dd></div>
+    <div><dt>check-citations</dt><dd>citations and private data</dd></div>
+    <div><dt>run-security-scans</dt><dd>Semgrep, Psalm, ZAP vs baseline</dd></div>
+    <div><dt>security-second-opinion</dt><dd><code>/security-review</code>, matched</dd></div>
+    <div><dt>build-stories</dt><dd>user stories from requirements</dd></div>
+    <div><dt>review-gate</dt><dd>a person approves each item by name</dd></div>
+    <div><dt>scaffold-framework</dt><dd>Playwright framework and agents</dd></div>
+    <div><dt>run-suites</dt><dd>every tier, clean-up, archive</dd></div>
+    <div><dt>triage-failures</dt><dd>app, test or environment</dd></div>
+    <div><dt>run-perf</dt><dd>k6 smoke and load, slow SQL</dd></div>
+    <div><dt>run-upgrade-compare</dt><dd>two runtime versions, test by test</dd></div>
+    <div><dt>run-mutation</dt><dd>defects no passing test notices</dd></div>
+    <div><dt>coverage-report</dt><dd>pages, matrix cells, requirements</dd></div>
+    <div><dt>build-rtm</dt><dd>risk to bug traceability</dd></div>
+    <div><dt>export-xray</dt><dd>Xray JSON, Gherkin, CSV</dd></div>
+    <div><dt>publish-xray</dt><dd>import after a confirmed dry run</dd></div>
+    <div><dt>publish-bugs</dt><dd>Jira bugs after a confirmed dry run</dd></div>
+    <div><dt>build-report</dt><dd>report and dashboard data</dd></div>
+  </dl>
+</section>
+
+<section id="flow">
+  <h2>How a run works</h2>
+  <ol class="flow">
+    <li><b>Inventory</b><span><span class="chip c-det">script</span> start the app, scan the code</span></li>
+    <li><b>Technology and security</b><span><span class="chip c-agent">agent</span> tech-analyst · <span class="chip c-det">script</span> scanners</span></li>
+    <li><b>Roles and workflows</b><span><span class="chip c-agent">agent</span> workflow-analyst · planner · <span class="chip c-det">script</span> user stories</span></li>
+    <li class="gate"><b>Review</b><span><span class="chip c-human">person</span> approves requirements, stories and risks</span></li>
+    <li><b>Test design</b><span><span class="chip c-agent">agent</span> test-designer · generator · Xray export</span></li>
+    <li><b>Execute</b><span><span class="chip c-det">script</span> every tier, clean-up, triage, k6, upgrade</span></li>
+    <li><b>Bugs</b><span><span class="chip c-agent">agent</span> bug-reporter · Jira after confirm</span></li>
+    <li><b>Report</b><span><span class="chip c-det">script</span> coverage, RTM, dashboard</span></li>
+  </ol>
+</section>
+
+<section id="stories">
+  <h2>User stories</h2>
+  <p class="lede"><code>build-stories</code> turns the requirements into user stories. Code does the grouping, priority and traceability; the workflow-analyst only words the story line and acceptance criteria, and a check re-derives everything else.</p>
+  <ul class="tight">
+    <li><b>Keep</b> stories protect today's behaviour.</li>
+    <li><b>Fix</b> stories hold the intended rule. The as-is behaviour it replaces is listed, never used as an acceptance criterion.</li>
+    <li>Outputs: <code>stories.yaml</code>, <code>docs/07-user-stories.md</code>, and a Jira-ready JSON that is not sent anywhere.</li>
+  </ul>
+</section>
+
+<section id="rules">
+  <h2>Rules it keeps</h2>
+  <ul class="tight">
+    <li>Every claim cites code; a document that doesn't resolve, or quotes seed data or a secret, is rejected.</li>
+    <li>The target's source is never edited, and tests only touch the local copy. Payment and other outside hosts are blocked.</li>
+    <li>Each test logs in on its own session. A finding counts as confirmed only when a test fails at the assertion that names it.</li>
+    <li>No skipped tests: a test exists only when it can run, and a missing input fails with its reason.</li>
+    <li>Each run cleans up its test data and keeps a full record in <code>output/runs/</code>.</li>
+    <li>Nothing is written to Jira or Xray without a dry run the person confirms.</li>
+    <li>Tests of the plugin: unit, hooks, contract and integration (Docker), plus the agents themselves on a fixture app with planted answers, checked by code. CI runs them on every push.</li>
+  </ul>
+</section>
+
+<section id="next">
+  <h2>Next</h2>
+  <ul class="tight">
+    <li>Scale the analysers to large apps: analyse one module at a time, then merge.</li>
+    <li>The Appium driver for mobile apps and for desktop apps not built with Electron, built against a real app.</li>
+  </ul>
+</section>
+
+<footer>reverse-qa · all testing on a local copy of the app · secrets live in a gitignored .env</footer>
+
+</div>

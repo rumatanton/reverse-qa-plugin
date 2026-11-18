@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "atlassian": {
+      "type": "http",
+      "url": "https://mcp.atlassian.com/v2/mcp"
+    },
+    "xray": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/xray/server.mjs"],
+      "env": {
+        "XRAY_BASE_URL": "${user_config.xray_base_url}",
+        "XRAY_PROJECT_KEY": "${user_config.xray_project_key}",
+        "XRAY_CLIENT_ID": "${user_config.xray_client_id}",
+        "XRAY_CLIENT_SECRET": "${user_config.xray_client_secret}"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mini Desktop - Notes</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js"></script>
+</head>
+<body>
+  <nav id="menu" aria-label="Main"></nav>
+  <main>
+    <h1>Your notes</h1>
+    <ul id="notes"></ul>
+    <form id="add">
+      <label>New note <input name="text" maxlength="200" required></label>
+      <button type="submit">Add</button>
+    </form>
+    <p><a href="clear.html">Delete all notes</a></p>
+    <script>
+      const me = requireRole();
+      const show = (notes) => {
+        document.getElementById("notes").innerHTML = notes.filter((n) => me && n.owner === me.email).map((n) => "<li></li>").join("");
+        document.querySelectorAll("#notes li").forEach((li, i) => { li.textContent = notes.filter((n) => n.owner === me.email)[i].text; });
+      };
+      window.desk.notes().then(show);
+      document.getElementById("add").addEventListener("submit", (event) => {
+        event.preventDefault();
+        window.desk.addNote({ owner: me.email, text: event.target.text.value }).then(show);
+        event.target.reset();
+      });
+    </script>
+  </main>
+</body>
+</html>

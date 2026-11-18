@@ -1,0 +1,528 @@
+{
+  "pack": "php",
+  "pack_version": "1.0.0",
+  "language_version": "7.2",
+  "files": [
+    {
+      "path": "admin/header.php",
+      "lines": 9,
+      "parse_error": null,
+      "includes": [],
+      "session": [],
+      "superglobals": [],
+      "sql": [],
+      "uploads": [],
+      "urls": [
+        {
+          "url": "https://cdn.example.test/admin.css",
+          "line": 5,
+          "context": "asset"
+        }
+      ],
+      "calls": [],
+      "functions": [],
+      "redirects": [],
+      "js_redirects": [],
+      "forms": [],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 225
+    },
+    {
+      "path": "admin/products.php",
+      "lines": 16,
+      "parse_error": null,
+      "includes": [
+        {
+          "target": "../db.php",
+          "line": 7,
+          "kind": "include"
+        }
+      ],
+      "session": [
+        {
+          "key": "ADMIN",
+          "op": "check",
+          "line": 3
+        }
+      ],
+      "superglobals": [
+        {
+          "name": "_FILES",
+          "key": "image",
+          "line": 8
+        },
+        {
+          "name": "_FILES",
+          "key": "image",
+          "line": 9
+        },
+        {
+          "name": "_FILES",
+          "key": "image",
+          "line": 9
+        },
+        {
+          "name": "_POST",
+          "key": "price",
+          "line": 11
+        },
+        {
+          "name": "_POST",
+          "key": "id",
+          "line": 12
+        },
+        {
+          "name": "_POST",
+          "key": "price",
+          "line": 13
+        }
+      ],
+      "sql": [
+        {
+          "text": "UPDATE products SET price = ? WHERE id = ?",
+          "line": 14
+        }
+      ],
+      "uploads": [
+        {
+          "line": 9
+        }
+      ],
+      "urls": [],
+      "calls": [
+        {
+          "name": "session_start",
+          "line": 2
+        },
+        {
+          "name": "move_uploaded_file",
+          "line": 9
+        },
+        {
+          "name": "->query",
+          "line": 14
+        }
+      ],
+      "functions": [],
+      "redirects": [
+        {
+          "url": "../login.php",
+          "line": 4,
+          "exits": true,
+          "code_follows": false,
+          "preceded_by": []
+        }
+      ],
+      "js_redirects": [],
+      "forms": [],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 0
+    },
+    {
+      "path": "admin/report.php",
+      "lines": 11,
+      "parse_error": null,
+      "includes": [
+        {
+          "target": "header.php",
+          "line": 3,
+          "kind": "include"
+        },
+        {
+          "target": "../db.php",
+          "line": 7,
+          "kind": "include"
+        }
+      ],
+      "session": [
+        {
+          "key": "ADMIN",
+          "op": "check",
+          "line": 4
+        }
+      ],
+      "superglobals": [],
+      "sql": [
+        {
+          "text": "SELECT COUNT(*) AS n, SUM(total) AS revenue FROM orders",
+          "line": 8
+        }
+      ],
+      "uploads": [],
+      "urls": [],
+      "calls": [
+        {
+          "name": "session_start",
+          "line": 2
+        },
+        {
+          "name": "->query",
+          "line": 8
+        }
+      ],
+      "functions": [],
+      "redirects": [
+        {
+          "url": "../login.php",
+          "line": 5,
+          "exits": false,
+          "code_follows": true,
+          "preceded_by": [
+            {
+              "kind": "include",
+              "line": 3,
+              "target": "header.php"
+            }
+          ]
+        }
+      ],
+      "js_redirects": [],
+      "forms": [],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 0
+    },
+    {
+      "path": "cart.php",
+      "lines": 11,
+      "parse_error": null,
+      "includes": [
+        {
+          "target": "db.php",
+          "line": 7,
+          "kind": "include"
+        }
+      ],
+      "session": [
+        {
+          "key": "UID",
+          "op": "check",
+          "line": 3
+        },
+        {
+          "key": "UID",
+          "op": "read",
+          "line": 9
+        }
+      ],
+      "superglobals": [
+        {
+          "name": "_GET",
+          "key": "add",
+          "line": 8
+        }
+      ],
+      "sql": [
+        {
+          "text": "INSERT INTO cart (user_id, product_id) VALUES (?, ?)",
+          "line": 9
+        }
+      ],
+      "uploads": [],
+      "urls": [],
+      "calls": [
+        {
+          "name": "session_start",
+          "line": 2
+        },
+        {
+          "name": "->query",
+          "line": 9
+        }
+      ],
+      "functions": [],
+      "redirects": [
+        {
+          "url": "login.php",
+          "line": 4,
+          "exits": true,
+          "code_follows": false,
+          "preceded_by": []
+        },
+        {
+          "url": "checkout.php",
+          "line": 10,
+          "exits": false,
+          "code_follows": false,
+          "preceded_by": [
+            {
+              "kind": "include",
+              "line": 7,
+              "target": "db.php"
+            }
+          ]
+        }
+      ],
+      "js_redirects": [],
+      "forms": [],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 0
+    },
+    {
+      "path": "checkout.php",
+      "lines": 16,
+      "parse_error": null,
+      "includes": [
+        {
+          "target": "db.php",
+          "line": 7,
+          "kind": "include"
+        }
+      ],
+      "session": [
+        {
+          "key": "UID",
+          "op": "check",
+          "line": 3
+        },
+        {
+          "key": "UID",
+          "op": "read",
+          "line": 8
+        }
+      ],
+      "superglobals": [],
+      "sql": [
+        {
+          "text": "INSERT INTO orders (user_id, total) SELECT ?, SUM(p.price) FROM cart c JOIN products p ON p.id = c.product_id WHERE c.user_id = ?",
+          "line": 9
+        },
+        {
+          "text": "DELETE FROM cart WHERE user_id = ?",
+          "line": 10
+        }
+      ],
+      "uploads": [],
+      "urls": [
+        {
+          "url": "https://pay.example.test/process",
+          "line": 12,
+          "context": "form-action"
+        }
+      ],
+      "calls": [
+        {
+          "name": "session_start",
+          "line": 2
+        },
+        {
+          "name": "->query",
+          "line": 9
+        },
+        {
+          "name": "->query",
+          "line": 10
+        }
+      ],
+      "functions": [],
+      "redirects": [
+        {
+          "url": "login.php",
+          "line": 4,
+          "exits": true,
+          "code_follows": false,
+          "preceded_by": []
+        }
+      ],
+      "js_redirects": [],
+      "forms": [
+        {
+          "line": 12,
+          "action": "https://pay.example.test/process",
+          "method": "POST",
+          "enctype": null,
+          "fields": [
+            {
+              "tag": "input",
+              "name": "order",
+              "type": "hidden",
+              "required": false,
+              "maxlength": null,
+              "line": 13
+            },
+            {
+              "tag": "button",
+              "name": null,
+              "type": "submit",
+              "required": false,
+              "maxlength": null,
+              "line": 14
+            }
+          ]
+        }
+      ],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 154
+    },
+    {
+      "path": "db.php",
+      "lines": 3,
+      "parse_error": null,
+      "includes": [],
+      "session": [],
+      "superglobals": [],
+      "sql": [],
+      "uploads": [],
+      "urls": [],
+      "calls": [],
+      "functions": [],
+      "redirects": [],
+      "js_redirects": [],
+      "forms": [],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 0
+    },
+    {
+      "path": "index.php",
+      "lines": 8,
+      "parse_error": null,
+      "includes": [
+        {
+          "target": "db.php",
+          "line": 3,
+          "kind": "include"
+        }
+      ],
+      "session": [],
+      "superglobals": [],
+      "sql": [
+        {
+          "text": "SELECT id, name, price FROM products",
+          "line": 4
+        }
+      ],
+      "uploads": [],
+      "urls": [],
+      "calls": [
+        {
+          "name": "session_start",
+          "line": 2
+        },
+        {
+          "name": "->query",
+          "line": 4
+        }
+      ],
+      "functions": [],
+      "redirects": [],
+      "js_redirects": [],
+      "forms": [],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 0
+    },
+    {
+      "path": "login.php",
+      "lines": 21,
+      "parse_error": null,
+      "includes": [
+        {
+          "target": "db.php",
+          "line": 3,
+          "kind": "include"
+        }
+      ],
+      "session": [
+        {
+          "key": "UID",
+          "op": "write",
+          "line": 9
+        }
+      ],
+      "superglobals": [
+        {
+          "name": "_POST",
+          "key": "email",
+          "line": 4
+        },
+        {
+          "name": "_POST",
+          "key": "email",
+          "line": 5
+        },
+        {
+          "name": "_POST",
+          "key": "password",
+          "line": 8
+        }
+      ],
+      "sql": [
+        {
+          "text": "SELECT id, pass_hash FROM users WHERE email = '?'",
+          "line": 6
+        }
+      ],
+      "uploads": [],
+      "urls": [],
+      "calls": [
+        {
+          "name": "session_start",
+          "line": 2
+        },
+        {
+          "name": "->real_escape_string",
+          "line": 5
+        },
+        {
+          "name": "->query",
+          "line": 6
+        },
+        {
+          "name": "password_verify",
+          "line": 8
+        }
+      ],
+      "functions": [],
+      "redirects": [
+        {
+          "url": "index.php",
+          "line": 10,
+          "exits": true,
+          "code_follows": false,
+          "preceded_by": [
+            {
+              "kind": "include",
+              "line": 3,
+              "target": "db.php"
+            }
+          ]
+        }
+      ],
+      "js_redirects": [],
+      "forms": [
+        {
+          "line": 16,
+          "action": "login.php",
+          "method": "POST",
+          "enctype": null,
+          "fields": [
+            {
+              "tag": "input",
+              "name": "email",
+              "type": "email",
+              "required": false,
+              "maxlength": null,
+              "line": 17
+            },
+            {
+              "tag": "input",
+              "name": "password",
+              "type": "password",
+              "required": false,
+              "maxlength": null,
+              "line": 18
+            },
+            {
+              "tag": "button",
+              "name": null,
+              "type": "submit",
+              "required": false,
+              "maxlength": null,
+              "line": 19
+            }
+          ]
+        }
+      ],
+      "fields_outside_forms": [],
+      "top_level_html_bytes": 166
+    }
+  ]
+}

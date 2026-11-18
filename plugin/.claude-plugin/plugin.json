@@ -1,0 +1,37 @@
+{
+  "name": "reverse-qa",
+  "displayName": "reverse-qa",
+  "version": "0.1.0",
+  "description": "Reverse-engineer an undocumented app: architecture, security, roles, workflows, requirements, test cases and a complete automation framework, with every claim cited to a file and line in the app's source.",
+  "author": { "name": "Anton Martch", "url": "https://github.com/rumatanton" },
+  "homepage": "https://rumatanton.github.io/reverse-qa-plugin/",
+  "repository": "https://github.com/rumatanton/reverse-qa-plugin",
+  "license": "MIT",
+  "privacyPolicyUrl": "https://github.com/rumatanton/reverse-qa-plugin#privacy",
+  "keywords": ["reverse-engineering", "requirements", "test-automation", "playwright", "qa", "legacy", "xray", "jira"],
+  "userConfig": {
+    "xray_base_url": {
+      "type": "string",
+      "title": "Xray API base URL",
+      "description": "Xray Cloud REST v2 base URL. Change it only for a regional Xray endpoint.",
+      "default": "https://xray.cloud.getxray.app/api/v2"
+    },
+    "xray_project_key": {
+      "type": "string",
+      "title": "Jira project key for tests",
+      "description": "The Jira project that receives the Xray tests, for example QA. Leave empty to work offline."
+    },
+    "xray_client_id": {
+      "type": "string",
+      "title": "Xray client ID",
+      "description": "Xray Cloud API key client ID (Xray > Settings > API Keys). Leave empty to work offline: validate and dry runs only.",
+      "sensitive": true
+    },
+    "xray_client_secret": {
+      "type": "string",
+      "title": "Xray client secret",
+      "description": "Xray Cloud API key client secret. Stored in the system credential store, never in settings files.",
+      "sensitive": true
+    }
+  }
+}

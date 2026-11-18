@@ -1,0 +1,13 @@
+{
+  "name": "reverse-qa",
+  "description": "reverse-qa: reverse-engineer an undocumented app and build its requirements, test cases and automation framework.",
+  "owner": { "name": "Anton Martch" },
+  "plugins": [
+    {
+      "name": "reverse-qa",
+      "source": "./plugin",
+      "description": "Architecture, security, roles, workflows, requirements and tests for an app with no documentation, every claim cited to file:line.",
+      "category": "testing"
+    }
+  ]
+}

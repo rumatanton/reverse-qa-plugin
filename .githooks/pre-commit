@@ -1,0 +1,11 @@
+#!/bin/sh
+# Fast plugin checks before every commit (about 30 s). Enable once per clone: git config core.hooksPath .githooks
+cd "$(git rev-parse --show-toplevel)/plugin" || exit 1
+npm run --silent test:unit || { echo "pre-commit: plugin unit tests failed; commit stopped" >&2; exit 1; }
+# A fix to a skill's scripts usually comes from a failure found in a run: record it in that skill's
+# "Lessons from real runs - Memory" section (plugin/skills/<skill>/SKILL.md) in the same commit.
+for skill in $(git diff --cached --name-only -- skills | sed -n 's#^plugin/skills/\([^/]*\)/.*#\1#p' | sort -u); do
+  if ! git diff --cached --name-only -- "skills/$skill/SKILL.md" | grep -q .; then
+    echo "pre-commit: skills/$skill changed without its SKILL.md. If this fixes a failure from a run, add it under 'Lessons from real runs - Memory'." >&2
+  fi
+done

@@ -1,0 +1,3 @@
+id,title,severity,priority,area,steps,expected,actual,evidence,root_cause,cause_category,five_whys,req_id,test_id,sources,status,notes
+F-001,Admin report data is sent in the body of the login redirect,high,P2,authz,GET admin/report.php without a session,302 with an empty body,302 whose body holds order count and revenue,admin/report.php:5,"admin/report.php:5 ""header(""Location: ../login.php"");"" has no exit",missing check,redirect sent > script continues > no exit after header(),REQ-ADM-001,TC-ADM-001,tech-analyst; test,confirmed,
+F-002,Prices shown without currency,low,P3,catalog,Open index.php,Price with currency,Bare number,index.php:6,index.php:6,design,display only,REQ-PAY-001,,tech-analyst,single-source,

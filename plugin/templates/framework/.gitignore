@@ -1,0 +1,11 @@
+node_modules/
+test-results/
+playwright-report/
+blob-report/
+.auth/
+# Written per machine by scaffold-framework (Playwright writes OS-specific commands, e.g. "cmd /c" on Windows).
+.mcp.json
+.claude/settings.local.json
+.rqa-plugin-path
+# the trace viewer's extracted trace (npx playwright trace open): working data
+.playwright-cli/

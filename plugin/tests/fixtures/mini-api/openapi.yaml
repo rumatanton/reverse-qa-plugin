@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: mini-api
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8095
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    NewOrder:
+      type: object
+      required: [product_id, qty]
+      properties:
+        product_id: { type: integer }
+        qty: { type: integer, minimum: 1 }
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      responses:
+        "200": { description: The API is up }
+  /login:
+    post:
+      summary: Log in and get a bearer token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        "200": { description: A token and the role }
+        "401": { description: Wrong email or password }
+  /products:
+    get:
+      summary: List products
+      responses:
+        "200": { description: Every product }
+  /products/{id}:
+    get:
+      summary: One product
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer }, example: 1 }
+      responses:
+        "200": { description: The product }
+        "404": { description: No such product }
+  /orders:
+    get:
+      summary: The caller's orders
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: Orders of the logged-in user }
+        "401": { description: Not logged in }
+    post:
+      summary: Place an order
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/NewOrder" }
+      responses:
+        "201": { description: The new order }
+        "400": { description: Missing or invalid fields }
+        "401": { description: Not logged in }
+  /orders/{id}:
+    get:
+      summary: One of the caller's orders
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer }, example: 1 }
+      responses:
+        "200": { description: The order }
+        "401": { description: Not logged in }
+        "404": { description: No such order }
+  /admin/report:
+    get:
+      summary: Order count and revenue, for admins
+      security: [{ bearerAuth: [] }]
+      responses:
+        "200": { description: The report }
+        "401": { description: Not logged in }
+        "403": { description: Not an admin }

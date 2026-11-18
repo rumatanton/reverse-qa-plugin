@@ -1,0 +1,32 @@
+# The "CD" part: releasing the plugin. A tag v* checks that plugin.json carries the same version, runs the unit tests,
+# and publishes a GitHub Release with the packaged plugin and the architecture page. The marketplace entry can then
+# point at the tag so other projects install a pinned version. The target app is never deployed.
+name: release
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 24, cache: npm, cache-dependency-path: plugin/package-lock.json }
+      - name: plugin.json version matches the tag
+        run: |
+          v=$(node -p "require('./plugin/.claude-plugin/plugin.json').version")
+          test "v$v" = "${GITHUB_REF_NAME}" || { echo "plugin.json version $v does not match tag ${GITHUB_REF_NAME}"; exit 1; }
+      - run: npm ci && npm run test:unit
+        working-directory: plugin
+      - name: Package
+        run: |
+          mkdir -p dist
+          tar --exclude=node_modules --exclude=tests -czf "dist/reverse-qa-plugin-${GITHUB_REF_NAME}.tgz" plugin .claude-plugin
+          cp docs/architecture.html dist/
+      - name: GitHub Release
+        env: { GH_TOKEN: '${{ github.token }}' }
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --title "reverse-qa ${GITHUB_REF_NAME}" --notes "Packaged plugin and architecture page."

@@ -1,0 +1,516 @@
+{
+  "version": "1.183.0",
+  "results": [
+    {
+      "check_id": "php.lang.security.injection.echoed-request.echoed-request",
+      "path": "/src/src/order_status.php",
+      "start": {
+        "line": 44,
+        "col": 132,
+        "offset": 1657
+      },
+      "end": {
+        "line": 44,
+        "col": 149,
+        "offset": 1674
+      },
+      "extra": {
+        "message": "`Echo`ing user input risks cross-site scripting vulnerability. You should use `htmlentities()` when showing data to users.",
+        "fix": "echo htmlentities($ORDER_ID);",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection",
+            "A05:2025 - Injection"
+          ],
+          "category": "security",
+          "references": [
+            "https://www.php.net/manual/en/function.htmlentities.php",
+            "https://www.php.net/manual/en/reserved.variables.request.php",
+            "https://www.php.net/manual/en/reserved.variables.post.php",
+            "https://www.php.net/manual/en/reserved.variables.get.php",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.echoed-request.echoed-request",
+          "shortlink": "https://sg.run/Bqqb"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.echoed-request.echoed-request",
+      "path": "/src/src/order_status.php",
+      "start": {
+        "line": 65,
+        "col": 64,
+        "offset": 2399
+      },
+      "end": {
+        "line": 65,
+        "col": 81,
+        "offset": 2416
+      },
+      "extra": {
+        "message": "`Echo`ing user input risks cross-site scripting vulnerability. You should use `htmlentities()` when showing data to users.",
+        "fix": "echo htmlentities($paramName);",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection",
+            "A05:2025 - Injection"
+          ],
+          "category": "security",
+          "references": [
+            "https://www.php.net/manual/en/function.htmlentities.php",
+            "https://www.php.net/manual/en/reserved.variables.request.php",
+            "https://www.php.net/manual/en/reserved.variables.post.php",
+            "https://www.php.net/manual/en/reserved.variables.get.php",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.echoed-request.echoed-request",
+          "shortlink": "https://sg.run/Bqqb"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "php.lang.security.injection.echoed-request.echoed-request",
+      "path": "/src/src/order_status.php",
+      "start": {
+        "line": 66,
+        "col": 57,
+        "offset": 2487
+      },
+      "end": {
+        "line": 66,
+        "col": 75,
+        "offset": 2505
+      },
+      "extra": {
+        "message": "`Echo`ing user input risks cross-site scripting vulnerability. You should use `htmlentities()` when showing data to users.",
+        "fix": "echo htmlentities($paramValue);",
+        "metadata": {
+          "technology": [
+            "php"
+          ],
+          "cwe": [
+            "CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+          ],
+          "owasp": [
+            "A07:2017 - Cross-Site Scripting (XSS)",
+            "A03:2021 - Injection",
+            "A05:2025 - Injection"
+          ],
+          "category": "security",
+          "references": [
+            "https://www.php.net/manual/en/function.htmlentities.php",
+            "https://www.php.net/manual/en/reserved.variables.request.php",
+            "https://www.php.net/manual/en/reserved.variables.post.php",
+            "https://www.php.net/manual/en/reserved.variables.get.php",
+            "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+          ],
+          "cwe2022-top25": true,
+          "cwe2021-top25": true,
+          "subcategory": [
+            "vuln"
+          ],
+          "likelihood": "MEDIUM",
+          "impact": "MEDIUM",
+          "confidence": "MEDIUM",
+          "license": "Semgrep Rules License v1.0. For more details, visit semgrep.dev/legal/rules-license",
+          "vulnerability_class": [
+            "Cross-Site-Scripting (XSS)"
+          ],
+          "source": "https://semgrep.dev/r/php.lang.security.injection.echoed-request.echoed-request",
+          "shortlink": "https://sg.run/Bqqb"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    }
+  ],
+  "errors": [],
+  "paths": {
+    "scanned": [
+      "/src/src/order_status.php",
+      "/src/src/admin/password.php",
+      "/src/src/admin/product_detail.php",
+      "/src/src/admin/category.php",
+      "/src/src/admin/comment.php",
+      "/src/src/admin/create_category.php",
+      "/src/src/admin/customer_detail.php",
+      "/src/src/admin/customer_orders.php",
+      "/src/src/admin/edit_product.php",
+      "/src/src/admin/edit_category.php",
+      "/src/src/admin/header.php",
+      "/src/src/admin/index.php",
+      "/src/src/admin/request.php",
+      "/src/src/admin/transaction.php",
+      "/src/src/admin/upload_product.php",
+      "/src/src/admin/view_products.php",
+      "/src/src/admin_login.php",
+      "/src/src/purchased.php",
+      "/src/src/books.php",
+      "/src/src/cart.php",
+      "/src/src/product_detail.php",
+      "/src/src/my_password.php",
+      "/src/src/my_requests.php",
+      "/src/src/my_orders.php",
+      "/src/src/db.php",
+      "/src/src/edit_profile.php",
+      "/src/src/includes/footer.php",
+      "/src/src/includes/header.php",
+      "/src/src/includes/main_header.php",
+      "/src/src/index.php",
+      "/src/src/lib/config_gateway.php",
+      "/src/src/lib/encdec_gateway.php",
+      "/src/src/login.php",
+      "/src/src/logout.php",
+      "/src/src/payment.php",
+      "/src/src/pay_redirect.php",
+      "/src/src/pay_response.php",
+      "/src/src/profile.php",
+      "/src/src/register.php",
+      "/src/src/search.php"
+    ]
+  },
+  "time": {
+    "rules": [],
+    "rules_parse_time": 0.22235894203186035,
+    "profiling_times": {
+      "config_time": 2.71506929397583,
+      "core_time": 9.095889329910278,
+      "ignores_time": 0.0008034706115722656,
+      "total_time": 11.84953784942627
+    },
+    "parsing_time": {
+      "total_time": 3.7204928398132324,
+      "per_file_time": {
+        "mean": 0.018982106325577713,
+        "std_dev": 0.003424428807798482
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.2432156150147409,
+        "count_ratio": 0.015306122448979591
+      },
+      "very_slow_files": [
+        {
+          "fpath": "/src/src/admin/edit_product.php",
+          "ftime": 0.300184965133667
+        },
+        {
+          "fpath": "/src/src/login.php",
+          "ftime": 0.3019859790802002
+        },
+        {
+          "fpath": "/src/src/register.php",
+          "ftime": 0.30271100997924805
+        }
+      ]
+    },
+    "scanning_time": {
+      "total_time": 31.61372447013855,
+      "per_file_time": {
+        "mean": 0.26344770391782124,
+        "std_dev": 0.2643058401838914
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.31889023819297563,
+        "count_ratio": 0.041666666666666664
+      },
+      "very_slow_files": [
+        {
+          "fpath": "/src/src/admin/upload_product.php",
+          "ftime": 1.5406382083892822
+        },
+        {
+          "fpath": "/src/src/admin/create_category.php",
+          "ftime": 1.5416920185089111
+        },
+        {
+          "fpath": "/src/src/register.php",
+          "ftime": 1.902073860168457
+        },
+        {
+          "fpath": "/src/src/product_detail.php",
+          "ftime": 2.5331389904022217
+        },
+        {
+          "fpath": "/src/src/admin/edit_product.php",
+          "ftime": 2.563765048980713
+        }
+      ]
+    },
+    "matching_time": {
+      "total_time": 10.683219194412231,
+      "per_file_and_rule_time": {
+        "mean": 0.05450622037965424,
+        "std_dev": 0.004942338455492194
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.4839252868680389,
+        "count_ratio": 0.1377551020408163
+      },
+      "very_slow_rules_on_files": [
+        {
+          "fpath": "/src/src/admin/create_category.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.18758893013000488
+        },
+        {
+          "fpath": "/src/src/product_detail.php",
+          "rule_id": "php.lang.security.injection.tainted-callable.tainted-callable",
+          "time": 0.20424103736877441
+        },
+        {
+          "fpath": "/src/src/edit_profile.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.20952486991882324
+        },
+        {
+          "fpath": "/src/src/pay_response.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.22663092613220215
+        },
+        {
+          "fpath": "/src/src/admin/upload_product.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.23882603645324707
+        },
+        {
+          "fpath": "/src/src/admin/product_detail.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.2702770233154297
+        },
+        {
+          "fpath": "/src/src/admin/edit_product.php",
+          "rule_id": "php.lang.security.injection.tainted-callable.tainted-callable",
+          "time": 0.2785320281982422
+        },
+        {
+          "fpath": "/src/src/admin/edit_product.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.3217310905456543
+        },
+        {
+          "fpath": "/src/src/register.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.4078700542449951
+        },
+        {
+          "fpath": "/src/src/product_detail.php",
+          "rule_id": "php.lang.security.injection.tainted-filename.tainted-filename",
+          "time": 0.5126190185546875
+        }
+      ]
+    },
+    "tainting_time": {
+      "total_time": 4.020947217941284,
+      "per_def_and_rule_time": {
+        "mean": 0.022976841245378767,
+        "std_dev": 0.0003415033984094631
+      },
+      "very_slow_stats": {
+        "time_ratio": 0.2639650283203603,
+        "count_ratio": 0.09142857142857143
+      },
+      "very_slow_rules_on_defs": [
+        {
+          "fpath": "/src/src/admin/create_category.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.tainted-exec.tainted-exec",
+          "time": 0.05800795555114746
+        },
+        {
+          "fpath": "/src/src/admin/transaction.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.printed-request.printed-request",
+          "time": 0.05884099006652832
+        },
+        {
+          "fpath": "/src/src/admin/edit_category.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.printed-request.printed-request",
+          "time": 0.06476879119873047
+        },
+        {
+          "fpath": "/src/src/product_detail.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.tainted-session.tainted-session",
+          "time": 0.0711979866027832
+        },
+        {
+          "fpath": "/src/src/my_password.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.printed-request.printed-request",
+          "time": 0.0737009048461914
+        },
+        {
+          "fpath": "/src/src/register.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.tainted-sql-string.tainted-sql-string",
+          "time": 0.07515716552734375
+        },
+        {
+          "fpath": "/src/src/search.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.printed-request.printed-request",
+          "time": 0.07654595375061035
+        },
+        {
+          "fpath": "/src/src/product_detail.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.tainted-object-instantiation.tainted-object-instantiation",
+          "time": 0.08168888092041016
+        },
+        {
+          "fpath": "/src/src/admin/edit_product.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.tainted-object-instantiation.tainted-object-instantiation",
+          "time": 0.08942985534667969
+        },
+        {
+          "fpath": "/src/src/admin/edit_product.php",
+          "fline": 1,
+          "rule_id": "php.lang.security.injection.tainted-session.tainted-session",
+          "time": 0.09635782241821289
+        }
+      ]
+    },
+    "fixpoint_timeouts": [
+      {
+        "error_type": "Fixpoint timeout",
+        "severity": "warn",
+        "message": "Fixpoint timeout while performing taint analysis at /src/src/admin/edit_product.php:1:0 [rules: 2, first: php.lang.security.injection.tainted-session.tainted-session]",
+        "location": {
+          "path": "/src/src/admin/edit_product.php",
+          "start": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          }
+        }
+      },
+      {
+        "error_type": "Fixpoint timeout",
+        "severity": "warn",
+        "message": "Fixpoint timeout while performing taint analysis at /src/src/admin/edit_category.php:1:0 [rules: 1, first: php.lang.security.injection.printed-request.printed-request]",
+        "location": {
+          "path": "/src/src/admin/edit_category.php",
+          "start": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          }
+        }
+      },
+      {
+        "error_type": "Fixpoint timeout",
+        "severity": "warn",
+        "message": "Fixpoint timeout while performing taint analysis at /src/src/product_detail.php:1:0 [rules: 3, first: php.lang.security.injection.tainted-exec.tainted-exec]",
+        "location": {
+          "path": "/src/src/product_detail.php",
+          "start": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          }
+        }
+      },
+      {
+        "error_type": "Fixpoint timeout",
+        "severity": "warn",
+        "message": "Fixpoint timeout while performing taint analysis at /src/src/search.php:1:0 [rules: 1, first: php.lang.security.injection.printed-request.printed-request]",
+        "location": {
+          "path": "/src/src/search.php",
+          "start": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "col": 1,
+            "offset": 0
+          }
+        }
+      }
+    ],
+    "prefiltering": {
+      "project_level_time": 0,
+      "file_level_time": 0,
+      "rules_with_project_prefilters_ratio": 0,
+      "rules_with_file_prefilters_ratio": 1,
+      "rules_selected_ratio": 0.09915254237288136,
+      "rules_matched_ratio": 0.09915254237288136
+    },
+    "targets": [],
+    "total_bytes": 0,
+    "max_memory_bytes": 276982464
+  },
+  "engine_requested": "OSS",
+  "skipped_rules": [],
+  "profiling_results": []
+}

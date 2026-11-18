@@ -1,0 +1,25 @@
+{
+  "bugs": [
+    {
+      "id": "BUG-001",
+      "finding_id": "F-001",
+      "summary": "Admin report sends order count and revenue in the body of the login redirect",
+      "severity": "high",
+      "priority": "P2",
+      "environment": "Local copy of mini-shop (fixture), PHP 7.2 + Apache, MariaDB 10.4, Chromium (Playwright 1.65.0)",
+      "steps": [
+        "Reset the database to the seed",
+        "Without logging in, request admin/report.php without following redirects",
+        "Read the response body"
+      ],
+      "expected": "HTTP 302 to ../login.php with an empty body",
+      "actual": "HTTP 302 to ../login.php whose body contains \"Orders: 1 Revenue: 12\"",
+      "root_cause": "admin/report.php:5 header(\"Location: ../login.php\") is not followed by exit, so the page keeps running",
+      "evidence": ["runs/20261109-120000-report/php-error.log", "test: report sends no data without a session @TC-ADM-001 F-001"],
+      "attachments": ["output/runs/20261109-120000-report/artifacts/report-leak/trace.zip"],
+      "requirement": "REQ-ADM-001",
+      "test_ids": ["TC-ADM-001"],
+      "labels": ["authz"]
+    }
+  ]
+}

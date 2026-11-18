@@ -1,0 +1,44 @@
+# mini-shop runtime for the plugin's integration tests. Paths come from the .env that tests/helpers.mjs writes:
+# MINI_SHOP_DIR (the fixture app) and RQA_TEMPLATES (plugin/templates). Ports are chosen to stay clear of a target app running on this machine.
+name: rqa-mini-shop
+
+services:
+  db:
+    image: mariadb:10.4
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: minishop
+      MYSQL_USER: shop
+      MYSQL_PASSWORD: shop
+    volumes:
+      - mysqld-socket:/run/mysqld
+    ports:
+      - "127.0.0.1:${DB_PORT:-3390}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+
+  web:
+    build:
+      context: ${RQA_TEMPLATES:?set by tests/helpers.mjs}/runtime/php-apache
+      additional_contexts:
+        app: ${MINI_SHOP_DIR:?set by tests/helpers.mjs}
+      args:
+        PHP_IMAGE: php:7.2-apache
+        APP_PATH: ""
+        WRITABLE_DIRS: uploads
+    image: rqa-mini-shop-web:php7.2
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${APP_PORT:-8090}:80"
+    volumes:
+      - mysqld-socket:/var/run/mysqld
+      - php-logs:/var/log/php
+
+volumes:
+  mysqld-socket:
+  php-logs:

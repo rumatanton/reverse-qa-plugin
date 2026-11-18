@@ -1,0 +1,13 @@
+{
+  "name": "mini-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A tiny Electron notes app with planted facts (EXPECTED.md), used to test reverse-qa's desktop driver.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "45.3.0"
+  }
+}

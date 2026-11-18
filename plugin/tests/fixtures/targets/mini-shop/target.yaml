@@ -1,0 +1,25 @@
+# Test fixture target. Tests set MINI_SHOP_DIR to plugin/tests/fixtures/mini-shop-php (see tests/helpers.mjs).
+name: mini-shop
+repo: fixture
+source:
+  dir_env: MINI_SHOP_DIR
+  stack: php
+  language_version: "7.2"
+  seed_dump: seed.sql
+runtime:
+  compose_file: docker-compose.yml
+  services:
+    app: web
+    db: db
+  base_url: http://localhost:8090/
+  health_path: index.php
+  output_buffering: 4096
+  app_root: /var/www/html
+  writable_dirs: [uploads]
+database:
+  engine: mariadb:10.4
+  name: minishop
+  user: root
+safety:
+  allowed_test_hosts: [localhost, 127.0.0.1]
+  never_test: [pay.example.test]

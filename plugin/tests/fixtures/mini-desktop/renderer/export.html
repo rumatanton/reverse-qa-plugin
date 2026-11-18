@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Mini Desktop - Export</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js"></script>
+</head>
+<body>
+  <nav id="menu" aria-label="Main"></nav>
+  <main>
+    <h1>Export</h1>
+    <pre id="dump"></pre>
+    <script>
+      // every note of every user, as JSON
+      window.desk.notes().then((notes) => { document.getElementById("dump").textContent = JSON.stringify(notes, null, 2); });
+    </script>
+  </main>
+</body>
+</html>
